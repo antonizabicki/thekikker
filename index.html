@@ -352,19 +352,23 @@
       display: block;
     }
 
-    /* Smooth Apple-style entrance */
+    /* Smooth Apple-style entrance (appearing from smaller) */
     .random-photo-card.photo-enter {
-      animation: applePhotoEnter 0.5s var(--apple-ease) forwards;
+      animation: applePhotoEnter 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transform-origin: center center;
     }
 
     @keyframes applePhotoEnter {
       0% {
         opacity: 0;
-        transform: translate3d(0, 25px, 0) rotate(var(--rot)) scale(0.9);
+        transform: scale(0.25) rotate(calc(var(--rot) * 0.4));
+      }
+      30% {
+        opacity: 1;
       }
       100% {
         opacity: 1;
-        transform: translate3d(0, 0, 0) rotate(var(--rot)) scale(1);
+        transform: scale(1) rotate(var(--rot));
       }
     }
 
@@ -437,10 +441,10 @@
     <div class="blob blob3"></div>
   </div>
 
-  <!-- 1. INTRO / LOADER (Smooth continuous Apple curve) -->
+  <!-- 1. INTRO / LOADER (Stepped expansion with logo.png) -->
   <div class="intro-loader" id="introLoader">
     <div class="intro-frog-wrap">
-      <img src="frog.svg" alt="The Kikker Logo">
+      <img src="logo.png" alt="The Kikker Logo">
     </div>
   </div>
 
@@ -554,15 +558,15 @@
       };
     }
 
-    // Calculate dimensions to preserve full resolution & native aspect ratio (no cropping!)
+    // Calculate dimensions to preserve full resolution & native aspect ratio (larger photos!)
     function getCardDimensions(imgRatio = 0.75) {
       const isMobile = window.innerWidth <= 768;
       let width, height;
 
       if (isMobile) {
-        // Mobile phone: scaled to comfortably fit upper or lower half with zero overlap
-        const maxH = Math.min(window.innerHeight * 0.32, 260);
-        const maxW = Math.min(window.innerWidth * 0.72, 280);
+        // Mobile phone: larger & impactful, fitting upper/lower half with safe spacing
+        const maxH = Math.min(window.innerHeight * 0.35, 305);
+        const maxW = Math.min(window.innerWidth * 0.82, 330);
 
         if (imgRatio >= 1) {
           // Landscape photo
@@ -582,9 +586,9 @@
           }
         }
       } else {
-        // Desktop / Laptop: generous full resolution display
-        const maxH = Math.min(window.innerHeight * 0.58, 560);
-        const maxW = Math.min(window.innerWidth * 0.32, 440);
+        // Desktop / Laptop: generous larger format showcase
+        const maxH = Math.min(window.innerHeight * 0.68, 640);
+        const maxW = Math.min(window.innerWidth * 0.38, 500);
 
         if (imgRatio >= 1) {
           width = maxW;
