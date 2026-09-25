@@ -2,32 +2,31 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>The Kikker</title>
   
-  <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%2393E225'/%3E%3Ctext x='50' y='68' font-family='Arial, sans-serif' font-size='55' font-weight='bold' fill='%23050703' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
+  <!-- Favicon using Kikker Frog SVG -->
+  <link rel="icon" type="image/svg+xml" href="frog.svg">
   
   <meta property="og:title" content="The Kikker">
-  <meta property="og:description" content="The Kikker">
+  <meta property="og:description" content="The Kikker — projects">
   <meta property="og:image" content="logo2.png">
   <meta property="og:type" content="website">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --bg-color: #050703;
       --brand-green: #93E225;
-      --brand-green-glow: rgba(147, 226, 37, 0.35);
-      --card-bg: #0c1009;
-      --card-border: rgba(255, 255, 255, 0.12);
+      --brand-green-glow: rgba(147, 226, 37, 0.4);
+      --card-bg: #0d120a;
+      --card-border: rgba(255, 255, 255, 0.14);
       --text-main: #f5f6f3;
-      --text-muted: #838e7a;
-      --duration: 4500ms;
+      --apple-ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * {
@@ -39,32 +38,22 @@
     }
 
     html, body {
-      width: 100%;
-      height: 100%;
-      max-width: 100vw;
-      overflow: hidden;
-    }
-
-    body {
+      width: 100vw;
       height: 100vh;
       height: 100dvh;
+      overflow: hidden;
       background-color: var(--bg-color);
       color: var(--text-main);
       font-family: 'Plus Jakarta Sans', sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
       position: relative;
       user-select: none;
       -webkit-user-select: none;
     }
 
-    /* Ambient noise & background glow blobs */
+    /* Ambient noise & blurred light blobs */
     .noise-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100vw;
       height: 100vh;
       z-index: 1;
@@ -84,13 +73,12 @@
     }
 
     .blobs-container {
-      position: absolute;
-      top: 0;
-      left: 0;
+      position: fixed;
+      inset: 0;
       width: 100%;
       height: 100%;
       z-index: 0;
-      filter: blur(120px);
+      filter: blur(130px);
       pointer-events: none;
       opacity: 0.75;
       overflow: hidden;
@@ -150,194 +138,291 @@
       100% { transform: translate(-14vw, 12vh) scale(0.85); }
     }
 
-    /* HEADER: Clickable Frog Contact Link */
-    header {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 100;
-      width: 100%;
-      padding: 24px 32px;
+    /* 1. INTRO / LOADER SCREEN (Stepped expansion: 3 distinct punchy stages) */
+    .intro-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background-color: #050703;
       display: flex;
       justify-content: center;
       align-items: center;
-      box-sizing: border-box;
+      transition: opacity 0.5s var(--apple-ease), visibility 0.5s;
+    }
+
+    .intro-loader.fade-out {
+      opacity: 0;
+      visibility: hidden;
       pointer-events: none;
     }
 
-    .frog-link {
-      pointer-events: auto;
+    .intro-frog-wrap {
+      width: 110px;
+      height: 110px;
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: rgba(16, 22, 13, 0.7);
-      border: 1px solid rgba(147, 226, 37, 0.35);
+      animation: frogIntroStepped 2.4s ease forwards;
+    }
+
+    .intro-frog-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 25px rgba(147, 226, 37, 0.85));
+    }
+
+    @keyframes frogIntroStepped {
+      /* STEP 1: Small */
+      0% {
+        transform: scale(0.35);
+        opacity: 0;
+        filter: drop-shadow(0 0 8px rgba(147, 226, 37, 0.3));
+      }
+      8% {
+        opacity: 1;
+        transform: scale(0.35);
+      }
+      28% {
+        transform: scale(0.35);
+        opacity: 1;
+      }
+      /* STEP 2: Snappy jump to Medium */
+      33% {
+        transform: scale(1.15);
+        opacity: 1;
+        filter: drop-shadow(0 0 35px rgba(147, 226, 37, 0.85));
+      }
+      58% {
+        transform: scale(1.15);
+        opacity: 1;
+      }
+      /* STEP 3: Snappy jump to Large */
+      63% {
+        transform: scale(2.6);
+        opacity: 1;
+        filter: drop-shadow(0 0 75px rgba(147, 226, 37, 1));
+      }
+      86% {
+        transform: scale(2.6);
+        opacity: 1;
+      }
+      /* FINAL BURST */
+      100% {
+        transform: scale(4.0);
+        opacity: 0;
+        filter: drop-shadow(0 0 120px rgba(147, 226, 37, 0));
+      }
+    }
+
+    /* 2. CENTER "projects" TITLE (Smaller, tighter tracking) */
+    .projects-center-title {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.35rem, 2.6vw, 2.1rem);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: lowercase;
+      color: rgba(245, 246, 243, 0.65);
+      pointer-events: none;
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 1.2s var(--apple-ease);
+      text-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+      white-space: nowrap;
+    }
+
+    .projects-center-title.visible {
+      opacity: 1;
+    }
+
+    /* 3. "CATCH ME" INTERACTIVE FROG (Contact Link) */
+    .catch-frog-container {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      transition: left 0.45s var(--apple-ease), 
+                  top 0.45s var(--apple-ease), 
+                  opacity 0.3s ease,
+                  transform 0.45s var(--apple-ease);
+      will-change: left, top, opacity, transform;
+    }
+
+    .catch-frog-container.is-jumping {
+      transform: none; /* absolute pixel positioning when dodging/jumping */
+    }
+
+    .catch-frog-container.fade-hide {
+      opacity: 0;
+      transform: scale(0.65);
+      pointer-events: none;
+    }
+
+    .catch-frog-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      padding: 6px 15px 6px 8px;
+      border-radius: 999px;
+      background: rgba(16, 22, 13, 0.72);
+      border: 1px solid rgba(147, 226, 37, 0.32);
       backdrop-filter: blur(25px) saturate(150%);
       -webkit-backdrop-filter: blur(25px) saturate(150%);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45), 0 0 16px rgba(147, 226, 37, 0.15);
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 16px rgba(147, 226, 37, 0.14);
       cursor: pointer;
-      text-decoration: none;
+      transition: transform 0.25s var(--apple-ease), border-color 0.25s, box-shadow 0.25s;
     }
 
-    .frog-link .frog-icon {
+    .catch-frog-link:hover {
+      transform: scale(1.08);
+      border-color: rgba(147, 226, 37, 0.85);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.65), 0 0 25px var(--brand-green-glow);
+    }
+
+    .catch-frog-link:active {
+      transform: scale(0.95);
+    }
+
+    .catch-frog-badge {
       width: 34px;
       height: 34px;
+      border-radius: 50%;
+      background: rgba(147, 226, 37, 0.15);
+      border: 1px solid rgba(147, 226, 37, 0.45);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.35s var(--apple-ease);
+    }
+
+    .catch-frog-link:hover .catch-frog-badge {
+      transform: rotate(-12deg) scale(1.1);
+    }
+
+    .catch-frog-icon {
+      width: 22px;
+      height: 22px;
       object-fit: contain;
       filter: drop-shadow(0 2px 5px rgba(147, 226, 37, 0.5));
-      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .frog-link:hover {
-      transform: translateY(-2px) scale(1.1);
-      border-color: rgba(147, 226, 37, 0.75);
-      background: rgba(22, 32, 17, 0.9);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 28px var(--brand-green-glow);
+    .catch-frog-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      color: var(--brand-green);
     }
 
-    .frog-link:hover .frog-icon {
-      transform: rotate(-10deg) scale(1.15);
-    }
-
-    .frog-link:active {
-      transform: translateY(1px) scale(0.96);
-    }
-
-    /* MAIN STAGE / PHOTO DUMP CONTAINER */
-    main {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      perspective: 1200px;
-      padding: 70px 20px 20px;
-      box-sizing: border-box;
-    }
-
-    .dump-stage {
-      position: relative;
-      width: min(84vw, 420px);
-      height: min(66vh, 580px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: default;
-    }
-
-    /* PHOTO CARD */
-    .photo-card {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 22px;
+    /* 4. PHOTO CARDS (Left-Right alternating) */
+    .random-photo-card {
+      position: fixed;
+      border-radius: 18px;
       background-color: var(--card-bg);
       overflow: hidden;
-      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--card-border);
-      transform: translate3d(var(--base-x, 0px), var(--base-y, 0px), 0px) rotate(var(--base-rot, 0deg));
-      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
-                  box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                  opacity 0.45s ease,
-                  filter 0.45s ease;
-      will-change: transform, box-shadow;
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--card-border);
+      will-change: transform, opacity;
       pointer-events: none;
+      z-index: 20;
     }
 
-    /* Subtle print frame / inner border */
-    .photo-card::after {
+    /* Inner subtle print border */
+    .random-photo-card::after {
       content: '';
       position: absolute;
       inset: 0;
-      border-radius: 22px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.4);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.45);
       pointer-events: none;
       z-index: 2;
     }
 
-    .photo-card img {
+    .random-photo-card img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      pointer-events: none;
-      transform-origin: center center;
     }
 
-    /* Entrance animation for freshly dropped photo */
-    .photo-card.dropping {
-      animation: cardDropIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    /* Smooth Apple-style entrance */
+    .random-photo-card.photo-enter {
+      animation: applePhotoEnter 0.5s var(--apple-ease) forwards;
     }
 
-    @keyframes cardDropIn {
+    @keyframes applePhotoEnter {
       0% {
         opacity: 0;
-        transform: translate3d(var(--base-x), calc(var(--base-y) - 60px), 80px) rotate(calc(var(--base-rot) * 1.5)) scale(1.1);
+        transform: translate3d(0, 25px, 0) rotate(var(--rot)) scale(0.9);
       }
       100% {
         opacity: 1;
-        transform: translate3d(var(--base-x), var(--base-y), 0px) rotate(var(--base-rot)) scale(1);
+        transform: translate3d(0, 0, 0) rotate(var(--rot)) scale(1);
       }
     }
 
-    /* HOVER & GENTLE ZOOM STATE (PAUSED) */
-    .dump-stage.is-hovered .photo-card.is-top {
-      /* Lekkie przybliżenie z zachowaniem naturalnego kąta */
-      transform: translate3d(var(--base-x, 0px), var(--base-y, 0px), 40px) rotate(calc(var(--base-rot, 0deg) * 0.75)) scale(1.08);
-      box-shadow: 0 32px 75px rgba(0, 0, 0, 0.92), 
-                  0 0 0 1px rgba(255, 255, 255, 0.2),
-                  0 0 25px var(--brand-green-glow);
-      z-index: 99999 !important;
+    /* 1st photo exit animation: smooth visible shrink into 1 single pixel */
+    .random-photo-card.shrink-to-pixel {
+      transition: transform 0.65s var(--apple-ease),
+                  opacity 0.65s var(--apple-ease),
+                  border-radius 0.65s ease,
+                  box-shadow 0.65s ease !important;
+      transform: translate3d(0, 0, 0) rotate(0deg) scale(0.003) !important;
+      border-radius: 50% !important;
+      box-shadow: 0 0 15px 4px #93E225, 0 0 35px 8px #ffffff !important;
+      opacity: 0.95;
     }
 
-    .dump-stage.is-hovered .photo-card:not(.is-top) {
-      filter: brightness(0.65);
-      opacity: 0.7;
+    /* Canvas for ultra-fine micro-pixel dissolve */
+    .pixel-dissolve-canvas {
+      position: fixed;
+      pointer-events: none;
+      z-index: 30;
+      transform-origin: center center;
     }
 
-    /* RESPONSIVE DESIGN */
+    /* RESPONSIVE DESIGN (Adapted for mobile phones & tablets) */
     @media (max-width: 768px) {
-      header {
-        padding: 16px 16px 8px;
+      body {
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+
+      .catch-frog-container {
+        top: max(18px, env(safe-area-inset-top, 18px));
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .projects-center-title {
+        font-size: clamp(1.15rem, 4.2vw, 1.45rem);
+        letter-spacing: 0.1em;
       }
       
-      .frog-link {
-        width: 46px;
-        height: 46px;
+      .catch-frog-link {
+        padding: 5px 12px 5px 7px;
+        gap: 8px;
+        -webkit-tap-highlight-color: transparent;
       }
 
-      .frog-link .frog-icon {
-        width: 28px;
-        height: 28px;
+      .catch-frog-badge {
+        width: 30px;
+        height: 30px;
       }
 
-      main {
-        padding: 65px 16px 16px;
+      .catch-frog-icon {
+        width: 19px;
+        height: 19px;
       }
 
-      .dump-stage {
-        width: min(82vw, 320px);
-        height: min(60vh, 460px);
-      }
-
-      .dump-stage.is-hovered .photo-card.is-top {
-        transform: translate3d(var(--base-x, 0px), var(--base-y, 0px), 30px) rotate(calc(var(--base-rot, 0deg) * 0.75)) scale(1.06);
-      }
-    }
-
-    @media (max-height: 700px) {
-      main {
-        padding: 60px 14px 10px;
-      }
-      .dump-stage {
-        height: min(60vh, 430px);
+      .catch-frog-label {
+        font-size: 0.75rem;
       }
     }
   </style>
@@ -352,19 +437,25 @@
     <div class="blob blob3"></div>
   </div>
 
-  <!-- HEADER: Clickable Frog Contact Link -->
-  <header>
-    <a href="mailto:pablo@thekikker.com" class="frog-link" title="Napisz do mnie" aria-label="Napisz do mnie">
-      <img src="frog.svg" alt="The Kikker" class="frog-icon">
-    </a>
-  </header>
-
-  <!-- MAIN PHOTO DUMP STAGE -->
-  <main>
-    <div class="dump-stage" id="dumpStage">
-      <!-- Photos are dynamically stacked here -->
+  <!-- 1. INTRO / LOADER (Smooth continuous Apple curve) -->
+  <div class="intro-loader" id="introLoader">
+    <div class="intro-frog-wrap">
+      <img src="frog.svg" alt="The Kikker Logo">
     </div>
-  </main>
+  </div>
+
+  <!-- 2. "CATCH ME" INTERACTIVE FROG (Contact Link) -->
+  <div class="catch-frog-container" id="catchFrogContainer">
+    <a href="mailto:pablo@thekikker.com" class="catch-frog-link" id="catchFrogLink" title="catch me" aria-label="catch me">
+      <div class="catch-frog-badge">
+        <img src="frog.svg" alt="The Kikker" class="catch-frog-icon">
+      </div>
+      <span class="catch-frog-label">catch me</span>
+    </a>
+  </div>
+
+  <!-- 3. CENTER "projects" TITLE -->
+  <div class="projects-center-title" id="projectsTitle">projects</div>
 
   <script>
     // All 22 lookbook photos from img/
@@ -393,147 +484,544 @@
       "img.jpeg"
     ];
 
-    const STACK_LIMIT = 8; // Max cards kept in DOM for smooth memory & true stack look
-    const SLIDE_DURATION = 4500; // 4.5 seconds per photo
+    // Preload images and cache natural dimensions
+    const loadedImages = {};
+    photoList.forEach(filename => {
+      const img = new Image();
+      img.src = `img/${encodeURIComponent(filename)}`;
+      loadedImages[filename] = img;
+    });
 
-    const stage = document.getElementById('dumpStage');
+    const introLoader = document.getElementById('introLoader');
+    const projectsTitle = document.getElementById('projectsTitle');
+    const catchFrogContainer = document.getElementById('catchFrogContainer');
 
-    let currentIndex = 0;
-    let globalZIndex = 10;
-    let isHovered = false;
-    let timerStart = null;
-    let timerElapsed = 0;
-    let animationFrameId = null;
-    let renderedCards = []; // Tracks { el, index, rot, x, y }
+    let currentPhotoIndex = 0;
+    let isFirstPhoto = true;
+    let nextSide = 'right'; // Alternates 'right' <-> 'left'
 
-    // Natural alternating/organic tilt angles for "na ukos" photo dump effect
-    const anglePresets = [-5.5, 6.2, -4.2, 5.8, -6.8, 4.5, -5.2, 6.5, -3.8, 5.2, -6.0, 4.8];
+    // Track active photo bounding rect for collision prevention
+    let activePhotoRect = null;
 
-    // Preload all images in background
-    function preloadImages() {
-      photoList.forEach(filename => {
-        const img = new Image();
-        img.src = `img/${encodeURIComponent(filename)}`;
-      });
+    // --- 1. STEPPED INTRO LOADER SEQUENCE ---
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        introLoader.classList.add('fade-out');
+        setTimeout(() => {
+          introLoader.remove();
+          startMainExperience();
+        }, 500);
+      }, 2350);
+    });
+
+    function startMainExperience() {
+      projectsTitle.classList.add('visible');
+      spawnNextPhoto();
+      initCatchMeFrog();
     }
-    preloadImages();
 
-    // Creates and drops a new photo card onto the pile
-    function dropCard(photoIndex, animate = true) {
-      globalZIndex++;
-      
-      const card = document.createElement('div');
-      card.className = 'photo-card' + (animate ? ' dropping' : '');
-      card.style.zIndex = globalZIndex;
+    // Helper: Rect collision check
+    function rectsOverlap(r1, r2, padding = 15) {
+      if (!r1 || !r2) return false;
+      return !(
+        r1.right + padding < r2.left ||
+        r1.left - padding > r2.right ||
+        r1.bottom + padding < r2.top ||
+        r1.top - padding > r2.bottom
+      );
+    }
 
-      // Calculate organic scatter angle and offset
-      const baseRot = anglePresets[photoIndex % anglePresets.length] + ((Math.random() - 0.5) * 2.5);
-      const baseX = ((Math.random() - 0.5) * 26);
-      const baseY = ((Math.random() - 0.5) * 20);
+    // Exclusion zone for center "projects" text
+    function getProjectsRect() {
+      const pRect = projectsTitle.getBoundingClientRect();
+      const isMobile = window.innerWidth <= 768;
+      return {
+        left: pRect.left - (isMobile ? 15 : 25),
+        right: pRect.right + (isMobile ? 15 : 25),
+        top: pRect.top - (isMobile ? 14 : 20),
+        bottom: pRect.bottom + (isMobile ? 14 : 20)
+      };
+    }
 
-      card.style.setProperty('--base-rot', `${baseRot.toFixed(2)}deg`);
-      card.style.setProperty('--base-x', `${baseX.toFixed(1)}px`);
-      card.style.setProperty('--base-y', `${baseY.toFixed(1)}px`);
+    function getCatchFrogRect() {
+      if (!catchFrogContainer) return null;
+      const rect = catchFrogContainer.getBoundingClientRect();
+      return {
+        left: rect.left,
+        right: rect.right,
+        top: rect.top,
+        bottom: rect.bottom
+      };
+    }
 
-      const img = document.createElement('img');
-      img.src = `img/${encodeURIComponent(photoList[photoIndex])}`;
-      img.alt = `The Kikker photo ${photoIndex + 1}`;
-      img.loading = 'eager';
+    // Calculate dimensions to preserve full resolution & native aspect ratio (no cropping!)
+    function getCardDimensions(imgRatio = 0.75) {
+      const isMobile = window.innerWidth <= 768;
+      let width, height;
 
-      card.appendChild(img);
-      stage.appendChild(card);
+      if (isMobile) {
+        // Mobile phone: scaled to comfortably fit upper or lower half with zero overlap
+        const maxH = Math.min(window.innerHeight * 0.32, 260);
+        const maxW = Math.min(window.innerWidth * 0.72, 280);
 
-      if (animate) {
-        setTimeout(() => {
-          card.classList.remove('dropping');
-        }, 600);
-      }
-
-      // Mark the new top card
-      renderedCards.forEach(item => {
-        item.el.classList.remove('is-top');
-      });
-      card.classList.add('is-top');
-
-      renderedCards.push({
-        el: card,
-        index: photoIndex,
-        rot: baseRot,
-        x: baseX,
-        y: baseY
-      });
-
-      // Maintain DOM performance: purge oldest cards beyond STACK_LIMIT
-      if (renderedCards.length > STACK_LIMIT) {
-        const oldest = renderedCards.shift();
-        oldest.el.style.opacity = '0';
-        oldest.el.style.transition = 'opacity 0.4s ease';
-        setTimeout(() => {
-          if (oldest.el.parentNode === stage) {
-            stage.removeChild(oldest.el);
+        if (imgRatio >= 1) {
+          // Landscape photo
+          width = maxW;
+          height = width / imgRatio;
+          if (height > maxH) {
+            height = maxH;
+            width = height * imgRatio;
           }
-        }, 400);
-      }
-    }
+        } else {
+          // Portrait photo
+          height = maxH;
+          width = height * imgRatio;
+          if (width > maxW) {
+            width = maxW;
+            height = width / imgRatio;
+          }
+        }
+      } else {
+        // Desktop / Laptop: generous full resolution display
+        const maxH = Math.min(window.innerHeight * 0.58, 560);
+        const maxW = Math.min(window.innerWidth * 0.32, 440);
 
-    // Advance to next photo (only runs automatically every 4.5s)
-    function nextPhoto() {
-      currentIndex = (currentIndex + 1) % photoList.length;
-      dropCard(currentIndex, true);
-      resetTimer();
-    }
-
-    // Timer loop
-    function resetTimer() {
-      timerStart = performance.now();
-      timerElapsed = 0;
-    }
-
-    function tick(now) {
-      if (!timerStart) timerStart = now;
-
-      if (!isHovered) {
-        timerElapsed += (now - (window.lastTickTime || now));
-
-        if (timerElapsed >= SLIDE_DURATION) {
-          nextPhoto();
+        if (imgRatio >= 1) {
+          width = maxW;
+          height = width / imgRatio;
+          if (height > maxH) {
+            height = maxH;
+            width = height * imgRatio;
+          }
+        } else {
+          height = maxH;
+          width = height * imgRatio;
+          if (width > maxW) {
+            width = maxW;
+            height = width / imgRatio;
+          }
         }
       }
-      window.lastTickTime = now;
-      animationFrameId = requestAnimationFrame(tick);
+
+      return {
+        width: Math.round(width),
+        height: Math.round(height)
+      };
     }
 
-    // Initialize with a stack of 3 layered cards so it instantly looks like a photo dump pile
-    const initialPrev2 = (photoList.length - 2) % photoList.length;
-    const initialPrev1 = (photoList.length - 1) % photoList.length;
-    dropCard(initialPrev2, false);
-    dropCard(initialPrev1, false);
-    dropCard(0, false); // top card is 01
+    // --- 2. PHOTO SPAWN: FULL RESOLUTION, NO CROPPING, MOBILE ADAPTED ---
+    function spawnNextPhoto() {
+      const currentFilename = photoList[currentPhotoIndex];
+      const preloaded = loadedImages[currentFilename];
+      let imgRatio = 0.75; // default 3:4 portrait
+      if (preloaded && preloaded.naturalWidth && preloaded.naturalHeight) {
+        imgRatio = preloaded.naturalWidth / preloaded.naturalHeight;
+      }
 
-    resetTimer();
-    animationFrameId = requestAnimationFrame(tick);
+      const { width, height } = getCardDimensions(imgRatio);
+      const isMobile = window.innerWidth <= 768;
+      const marginX = isMobile ? 16 : 24;
+      const marginY = isMobile ? 75 : 80;
+      const projectsBox = getProjectsRect();
+      const frogBox = getCatchFrogRect();
 
-    // HOVER INTERACTION: Pause timer & gently scale up
-    stage.addEventListener('mouseenter', () => {
-      isHovered = true;
-      stage.classList.add('is-hovered');
-    });
+      const currentSide = nextSide;
+      nextSide = nextSide === 'right' ? 'left' : 'right';
 
-    stage.addEventListener('mouseleave', () => {
-      isHovered = false;
-      stage.classList.remove('is-hovered');
-    });
+      let chosenLeft = marginX;
+      let chosenTop = marginY;
 
-    // Touch devices: tap/hold to pause and gently zoom, release to resume
-    stage.addEventListener('touchstart', () => {
-      isHovered = true;
-      stage.classList.add('is-hovered');
-    }, { passive: true });
+      // Sample positions with strict collision avoidance (projects & catch me)
+      for (let attempt = 0; attempt < 25; attempt++) {
+        let testLeft, testTop;
 
-    stage.addEventListener('touchend', () => {
-      isHovered = false;
-      stage.classList.remove('is-hovered');
-    }, { passive: true });
+        if (!isMobile) {
+          const midX = window.innerWidth / 2;
+          if (currentSide === 'right') {
+            const minLeft = midX + 80;
+            const maxLeft = Math.max(minLeft, window.innerWidth - width - marginX);
+            testLeft = minLeft + Math.random() * (maxLeft - minLeft);
+          } else {
+            const maxLeft = Math.max(marginX, midX - width - 80);
+            testLeft = marginX + Math.random() * (maxLeft - marginX);
+          }
+          const maxTop = Math.max(marginY, window.innerHeight - height - marginY);
+          testTop = marginY + Math.random() * (maxTop - marginY);
+        } else {
+          // Mobile: clean upper half / lower half separation (zero cut-off or overlap!)
+          if (currentSide === 'right') {
+            // Lower half (below center "projects")
+            const minTop = projectsBox.bottom + 16;
+            const maxTop = Math.max(minTop, window.innerHeight - height - 24);
+            testTop = minTop + Math.random() * Math.max(0, maxTop - minTop);
+          } else {
+            // Upper half (above center "projects", below top bar)
+            const topHeaderSafe = Math.max(marginY, frogBox ? frogBox.bottom + 12 : 75);
+            const maxTop = Math.max(topHeaderSafe, projectsBox.top - height - 16);
+            testTop = topHeaderSafe + Math.random() * Math.max(0, maxTop - topHeaderSafe);
+          }
+
+          // Horizontally centered with playful subtle tilt offset (-12px / +12px)
+          const baseLeft = (window.innerWidth - width) / 2;
+          const hOffset = (currentSide === 'right' ? 12 : -12) + (Math.random() - 0.5) * 12;
+          testLeft = Math.max(16, Math.min(window.innerWidth - width - 16, baseLeft + hOffset));
+        }
+
+        const testBox = {
+          left: testLeft,
+          right: testLeft + width,
+          top: testTop,
+          bottom: testTop + height
+        };
+
+        const overlapsFrog = frogBox ? rectsOverlap(testBox, frogBox, 18) : false;
+        const overlapsProjects = rectsOverlap(testBox, projectsBox, 18);
+
+        if (!overlapsFrog && !overlapsProjects) {
+          chosenLeft = testLeft;
+          chosenTop = testTop;
+          break;
+        }
+
+        chosenLeft = testLeft;
+        chosenTop = testTop;
+      }
+
+      const randomRot = (Math.random() - 0.5) * (isMobile ? 5 : 8); // Subtle rotation
+
+      const card = document.createElement('div');
+      card.className = 'random-photo-card photo-enter';
+      card.style.width = `${width}px`;
+      card.style.height = `${height}px`;
+      card.style.left = `${chosenLeft}px`;
+      card.style.top = `${chosenTop}px`;
+      card.style.transform = `rotate(${randomRot.toFixed(2)}deg)`;
+      card.style.setProperty('--rot', `${randomRot.toFixed(2)}deg`);
+
+      const img = document.createElement('img');
+      img.src = `img/${encodeURIComponent(photoList[currentPhotoIndex])}`;
+      img.alt = `The Kikker project ${currentPhotoIndex + 1}`;
+      card.appendChild(img);
+
+      document.body.appendChild(card);
+
+      // Save active photo rect for collision checking
+      activePhotoRect = {
+        left: chosenLeft,
+        right: chosenLeft + width,
+        top: chosenTop,
+        bottom: chosenTop + height
+      };
+
+      const isCurrentFirst = isFirstPhoto;
+      isFirstPhoto = false;
+
+      // Display photo for ~2 seconds, then trigger exit animation & next photo
+      setTimeout(() => {
+        // "od razu jak sie znika jakies zdjecie to ma sie pojawiac kolejne"
+        // Immediately as this photo begins to disappear, spawn the next photo!
+        currentPhotoIndex = (currentPhotoIndex + 1) % photoList.length;
+        spawnNextPhoto();
+
+        if (isCurrentFirst) {
+          // 1ST PHOTO: shrink into a single visible pixel
+          exitShrinkToPixel(card);
+        } else {
+          // SUBSEQUENT PHOTOS: disintegrate into ultra-fine micro-pixels that dissolve into air
+          exitMicroPixelDissolve(card, img, randomRot);
+        }
+      }, 2000);
+    }
+
+    // 1st photo exit: shrink into a single pixel
+    function exitShrinkToPixel(card) {
+      card.classList.remove('photo-enter');
+      card.classList.add('shrink-to-pixel');
+
+      setTimeout(() => {
+        card.remove();
+      }, 700);
+    }
+
+    // Subsequent photos exit: ultra-fine micro-pixel dissolve into thin air
+    // Preserves the EXACT rotation/orientation of the window card!
+    function exitMicroPixelDissolve(card, img, rotDeg) {
+      const rect = card.getBoundingClientRect();
+      const pad = 24; // Padding to allow subtle micro-float without edge clipping
+      const cw = Math.round(rect.width + pad * 2);
+      const ch = Math.round(rect.height + pad * 2);
+
+      const canvas = document.createElement('canvas');
+      canvas.className = 'pixel-dissolve-canvas';
+      canvas.width = cw;
+      canvas.height = ch;
+      canvas.style.left = `${rect.left - pad}px`;
+      canvas.style.top = `${rect.top - pad}px`;
+      canvas.style.width = `${cw}px`;
+      canvas.style.height = `${ch}px`;
+      // Preserves the EXACT rotation/orientation of the card window!
+      canvas.style.transform = `rotate(${rotDeg.toFixed(2)}deg)`;
+      document.body.appendChild(canvas);
+
+      const ctx = canvas.getContext('2d');
+
+      // Aspect ratio math for exact object-fit: cover matching DOM image
+      const natW = img.naturalWidth || rect.width;
+      const natH = img.naturalHeight || rect.height;
+      const imgRatio = natW / natH;
+      const cardRatio = rect.width / rect.height;
+      let sx = 0, sy = 0, sWidth = natW, sHeight = natH;
+
+      if (imgRatio > cardRatio) {
+        sWidth = natH * cardRatio;
+        sx = (natW - sWidth) / 2;
+      } else {
+        sHeight = natW / cardRatio;
+        sy = (natH - sHeight) / 2;
+      }
+
+      ctx.save();
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(pad, pad, rect.width, rect.height, 18);
+      } else {
+        ctx.rect(pad, pad, rect.width, rect.height);
+      }
+      ctx.clip();
+      try {
+        ctx.drawImage(img, sx, sy, sWidth, sHeight, pad, pad, rect.width, rect.height);
+      } catch (e) {}
+      ctx.restore();
+
+      // Remove DOM card now that canvas displays identical frame
+      card.remove();
+
+      let src32 = null;
+      try {
+        const srcData = ctx.getImageData(0, 0, cw, ch);
+        src32 = new Uint32Array(srcData.data.buffer);
+      } catch (e) {}
+
+      // Ultra-fine micro-pixel step (2px = seamless micro dust particles)
+      const grainStep = 2;
+      const grains = [];
+
+      if (src32) {
+        for (let y = pad; y < pad + rect.height; y += grainStep) {
+          const rowOffset = y * cw;
+          for (let x = pad; x < pad + rect.width; x += grainStep) {
+            const idx = rowOffset + x;
+            const col = src32[idx];
+            const a = (col >> 24) & 0xFF;
+            if (a < 35) continue; // Skip transparent / rounded corners
+
+            const r = col & 0xFF;
+            const g = (col >> 8) & 0xFF;
+            const b = (col >> 16) & 0xFF;
+
+            // Progressive organic dissolve across the card (0-220ms start jitter)
+            const ny = (y - pad) / rect.height;
+            const nx = (x - pad) / rect.width;
+            const delay = (ny * 0.4 + nx * 0.2 + Math.random() * 0.4) * 220;
+
+            // Omnidirectional micro-drift into air (NO downward gravity!)
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 0.3 + Math.random() * 1.5;
+            const vx = Math.cos(angle) * speed;
+            const vy = Math.sin(angle) * speed - 0.2; // subtle weightless float
+
+            grains.push({
+              x: x,
+              y: y,
+              origX: x,
+              origY: y,
+              vx: vx,
+              vy: vy,
+              delay: delay,
+              life: 280 + Math.random() * 160,
+              r: r,
+              g: g,
+              b: b
+            });
+          }
+        }
+      }
+
+      const outputData = ctx.createImageData(cw, ch);
+      const buf32 = new Uint32Array(outputData.data.buffer);
+      let startTime = null;
+      const totalDuration = 620; // ms
+
+      function renderMicroDissolve(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+
+        buf32.fill(0);
+        let activeCount = 0;
+
+        for (let i = 0; i < grains.length; i++) {
+          const g = grains[i];
+
+          if (elapsed < g.delay) {
+            // Pristine intact pixel before dissolve
+            const c = (0xFF << 24) | (g.b << 16) | (g.g << 8) | g.r;
+            const px = g.origX | 0;
+            const py = g.origY | 0;
+            if (px >= 0 && px < cw - 1 && py >= 0 && py < ch - 1) {
+              const idx = py * cw + px;
+              buf32[idx] = c;
+              buf32[idx + 1] = c;
+              buf32[idx + cw] = c;
+              buf32[idx + cw + 1] = c;
+            }
+            activeCount++;
+            continue;
+          }
+
+          const grainAge = elapsed - g.delay;
+          if (grainAge >= g.life) {
+            // Completely vanished / dissolved into thin air!
+            continue;
+          }
+
+          const grainProgress = grainAge / g.life;
+          g.x += g.vx;
+          g.y += g.vy;
+          g.vx *= 0.97; // slight air friction
+          g.vy *= 0.97;
+
+          // Dissolve smoothly to 0 alpha
+          const alpha = Math.round(255 * (1 - grainProgress));
+          if (alpha > 4) {
+            activeCount++;
+            const c = (alpha << 24) | (g.b << 16) | (g.g << 8) | g.r;
+            const px = g.x | 0;
+            const py = g.y | 0;
+            if (px >= 0 && px < cw - 1 && py >= 0 && py < ch - 1) {
+              const idx = py * cw + px;
+              buf32[idx] = c;
+              buf32[idx + 1] = c;
+              buf32[idx + cw] = c;
+              buf32[idx + cw + 1] = c;
+            }
+          }
+        }
+
+        ctx.putImageData(outputData, 0, 0);
+
+        if (elapsed < totalDuration && activeCount > 0) {
+          requestAnimationFrame(renderMicroDissolve);
+        } else {
+          canvas.remove();
+        }
+      }
+
+      requestAnimationFrame(renderMicroDissolve);
+    }
+
+    // --- 3. "CATCH ME" FROG: 3s AUTO-ESCAPE, 2s PERSISTENCE & NO OVERLAP ---
+    let hasDodged = false;
+    let jumpIntervalId = null;
+    let autoEscapeTimeoutId = null;
+
+    function initCatchMeFrog() {
+      // Proximity detection: if cursor approaches within 100px, flee!
+      function onMouseMove(e) {
+        if (hasDodged) return;
+
+        const rect = catchFrogContainer.getBoundingClientRect();
+        const frogCenterX = rect.left + rect.width / 2;
+        const frogCenterY = rect.top + rect.height / 2;
+        const dist = Math.hypot(e.clientX - frogCenterX, e.clientY - frogCenterY);
+
+        if (dist < 100) {
+          triggerFirstDodge();
+        }
+      }
+
+      window.addEventListener('mousemove', onMouseMove);
+
+      // Mobile touch trigger
+      catchFrogContainer.addEventListener('touchstart', () => {
+        if (!hasDodged) {
+          triggerFirstDodge();
+        }
+      }, { passive: true });
+
+      // Auto-escape after 3 seconds if cursor hasn't approached
+      autoEscapeTimeoutId = setTimeout(() => {
+        if (!hasDodged) {
+          triggerFirstDodge();
+        }
+      }, 3000);
+    }
+
+    function triggerFirstDodge() {
+      if (hasDodged) return;
+      hasDodged = true;
+      if (autoEscapeTimeoutId) clearTimeout(autoEscapeTimeoutId);
+
+      catchFrogContainer.classList.add('is-jumping');
+      jumpFrogToSafeSpot();
+
+      // "te catch me niech sie utrzymuje przez 2 sekundy"
+      // Teleports every 2000ms to a new spot, staying visible for 2 seconds
+      // WITHOUT proximity detection so user can catch (click) it!
+      jumpIntervalId = setInterval(() => {
+        catchFrogContainer.classList.add('fade-hide');
+        setTimeout(() => {
+          jumpFrogToSafeSpot();
+          catchFrogContainer.classList.remove('fade-hide');
+        }, 250);
+      }, 2000);
+    }
+
+    // Finds a random position for the frog that DOES NOT overlap "projects" or active photo
+    function jumpFrogToSafeSpot() {
+      const isMobile = window.innerWidth <= 768;
+      const marginX = isMobile ? 16 : 24;
+      const minY = isMobile ? 55 : 24;
+      const frogW = catchFrogContainer.offsetWidth || (isMobile ? 120 : 140);
+      const frogH = catchFrogContainer.offsetHeight || (isMobile ? 42 : 50);
+
+      const maxX = Math.max(marginX, window.innerWidth - frogW - marginX);
+      const maxY = Math.max(minY, window.innerHeight - frogH - (isMobile ? 35 : minY));
+
+      const projectsBox = getProjectsRect();
+
+      let chosenX = marginX;
+      let chosenY = minY;
+      let attempts = 0;
+
+      // Try up to 30 times to find non-overlapping coordinates
+      while (attempts < 30) {
+        attempts++;
+        const testX = marginX + Math.random() * (maxX - marginX);
+        const testY = minY + Math.random() * (maxY - minY);
+
+        const frogBox = {
+          left: testX,
+          right: testX + frogW,
+          top: testY,
+          bottom: testY + frogH
+        };
+
+        const overlapsProjects = rectsOverlap(frogBox, projectsBox, 18);
+        const overlapsPhoto = activePhotoRect ? rectsOverlap(frogBox, activePhotoRect, 18) : false;
+
+        if (!overlapsProjects && !overlapsPhoto) {
+          chosenX = testX;
+          chosenY = testY;
+          break;
+        }
+
+        chosenX = testX;
+        chosenY = testY;
+      }
+
+      catchFrogContainer.style.left = `${chosenX}px`;
+      catchFrogContainer.style.top = `${chosenY}px`;
+    }
   </script>
 </body>
 </html>
