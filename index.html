@@ -1,1 +1,539 @@
-<!DOCTYPE html><html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title>Kikker</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%2393E225'/%3E%3Ctext x='50' y='68' font-family='Arial, sans-serif' font-size='55' font-weight='bold' fill='%23050703' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E"><meta property="og:title" content="Kikker"><meta property="og:description" content="website in build"><meta property="og:image" content="logo2.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Kikker"><meta name="twitter:description" content="website in build"><meta name="twitter:image" content="logo2.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-user-select:none}body{height:100vh;width:100vw;display:flex;justify-content:center;align-items:center;background-color:#050703;overflow:hidden;font-family:'Poppins',sans-serif}.noise-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:10;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");background-size:100px 100px;opacity:.08;animation:noiseAnim .2s infinite steps(4)}@keyframes noiseAnim{0%{background-position:0 0}25%{background-position:15px 25px}50%{background-position:-20px -10px}75%{background-position:30px -30px}100%{background-position:-10px 15px}}.blobs-container{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;filter:blur(100px)}.blob{position:absolute;border-radius:50%;opacity:.15;animation-iteration-count:infinite;animation-timing-function:ease-in-out}.blob1{width:50vw;height:50vw;background-color:#93E225;top:10%;left:-10%;animation:moveBlob1 25s infinite alternate}.blob2{width:60vw;height:60vw;background-color:#B7F032;bottom:-10%;right:-10%;animation:moveBlob2 30s infinite alternate}.blob3{width:40vw;height:40vw;background-color:#93E225;top:40%;left:30%;opacity:.1;animation:moveBlob3 20s infinite alternate}@keyframes moveBlob1{0%{transform:translate(0,0) scale(1)}50%{transform:translate(10vw,15vh) scale(1.2)}100%{transform:translate(-5vw,5vh) scale(.9)}}@keyframes moveBlob2{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-15vw,-10vh) scale(.8)}100%{transform:translate(5vw,-15vh) scale(1.1)}}@keyframes moveBlob3{0%{transform:translate(0,0) scale(1)}50%{transform:translate(10vw,-10vh) scale(1.3)}100%{transform:translate(-15vw,10vh) scale(.8)}}.glass-card{position:relative;z-index:5;background:linear-gradient(135deg,rgba(255,255,255,.06) 0%,rgba(20,25,15,.1) 100%);backdrop-filter:blur(35px) saturate(140%);-webkit-backdrop-filter:blur(35px) saturate(140%);border-top:1px solid rgba(255,255,255,.15);border-left:1px solid rgba(255,255,255,.15);border-right:1px solid rgba(147,226,37,.03);border-bottom:1px solid rgba(147,226,37,.03);border-radius:24px;padding:50px 70px;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:0 30px 60px rgba(0,0,0,.7),inset 0 1px 1px rgba(255,255,255,.15)}.logo{width:160px;height:auto;margin-bottom:25px;animation:pulseFade 3.5s infinite ease-in-out;transform:translateZ(0)}@keyframes pulseFade{0%,100%{opacity:.15;transform:scale(.96)}50%{opacity:1;transform:scale(1)}}.text-wrapper{display:flex;align-items:center;justify-content:center}.status-text{color:#fff;font-size:1.1rem;font-weight:500;letter-spacing:-.04em;text-transform:lowercase}.dots-container{display:inline-block;width:20px;text-align:left;color:#93E225}.dots::after{content:'';animation:loadingDots 1.5s infinite linear}@keyframes loadingDots{0%,20%{content:''}40%{content:'.'}60%{content:'..'}80%,100%{content:'...'}}@media(max-width:768px){.glass-card{padding:40px 30px;width:85%;border-radius:20px}.logo{width:130px;margin-bottom:20px}.status-text{font-size:.95rem}.blob1,.blob2,.blob3{width:80vw;height:80vw}}</style></head><body oncontextmenu="return false;" ondragstart="return false;" oncopy="return false;"><div class="noise-overlay"></div><div class="blobs-container"><div class="blob blob1"></div><div class="blob blob2"></div><div class="blob blob3"></div></div><div class="glass-card"><img src="logo.svg" alt="Kikker" class="logo"><div class="text-wrapper"><div class="status-text">website in build</div><div class="status-text dots-container"><span class="dots"></span></div></div></div></body></html>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Kikker</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%2393E225'/%3E%3Ctext x='50' y='68' font-family='Arial, sans-serif' font-size='55' font-weight='bold' fill='%23050703' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
+  
+  <meta property="og:title" content="The Kikker">
+  <meta property="og:description" content="The Kikker">
+  <meta property="og:image" content="logo2.png">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #050703;
+      --brand-green: #93E225;
+      --brand-green-glow: rgba(147, 226, 37, 0.35);
+      --card-bg: #0c1009;
+      --card-border: rgba(255, 255, 255, 0.12);
+      --text-main: #f5f6f3;
+      --text-muted: #838e7a;
+      --duration: 4500ms;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      max-width: 100vw;
+      overflow: hidden;
+    }
+
+    body {
+      height: 100vh;
+      height: 100dvh;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Ambient noise & background glow blobs */
+    .noise-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      background-size: 110px 110px;
+      opacity: 0.07;
+      animation: noiseAnim 0.25s infinite steps(4);
+    }
+
+    @keyframes noiseAnim {
+      0% { background-position: 0 0; }
+      25% { background-position: 15px 25px; }
+      50% { background-position: -20px -10px; }
+      75% { background-position: 30px -30px; }
+      100% { background-position: -10px 15px; }
+    }
+
+    .blobs-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      filter: blur(120px);
+      pointer-events: none;
+      opacity: 0.75;
+      overflow: hidden;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.16;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+    }
+
+    .blob1 {
+      width: 55vw;
+      height: 55vw;
+      background-color: var(--brand-green);
+      top: -12%;
+      left: -12%;
+      animation: moveBlob1 28s infinite alternate;
+    }
+
+    .blob2 {
+      width: 60vw;
+      height: 60vw;
+      background-color: #6bb018;
+      bottom: -15%;
+      right: -10%;
+      animation: moveBlob2 32s infinite alternate;
+    }
+
+    .blob3 {
+      width: 45vw;
+      height: 45vw;
+      background-color: #aff53b;
+      top: 30%;
+      left: 28%;
+      opacity: 0.08;
+      animation: moveBlob3 24s infinite alternate;
+    }
+
+    @keyframes moveBlob1 {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(12vw, 12vh) scale(1.15); }
+      100% { transform: translate(-8vw, 6vh) scale(0.92); }
+    }
+
+    @keyframes moveBlob2 {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-14vw, -12vh) scale(0.85); }
+      100% { transform: translate(6vw, -16vh) scale(1.1); }
+    }
+
+    @keyframes moveBlob3 {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(12vw, -12vh) scale(1.25); }
+      100% { transform: translate(-14vw, 12vh) scale(0.85); }
+    }
+
+    /* HEADER: Clickable Frog Contact Link */
+    header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 100%;
+      padding: 24px 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      pointer-events: none;
+    }
+
+    .frog-link {
+      pointer-events: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(16, 22, 13, 0.7);
+      border: 1px solid rgba(147, 226, 37, 0.35);
+      backdrop-filter: blur(25px) saturate(150%);
+      -webkit-backdrop-filter: blur(25px) saturate(150%);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45), 0 0 16px rgba(147, 226, 37, 0.15);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .frog-link .frog-icon {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 5px rgba(147, 226, 37, 0.5));
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .frog-link:hover {
+      transform: translateY(-2px) scale(1.1);
+      border-color: rgba(147, 226, 37, 0.75);
+      background: rgba(22, 32, 17, 0.9);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 28px var(--brand-green-glow);
+    }
+
+    .frog-link:hover .frog-icon {
+      transform: rotate(-10deg) scale(1.15);
+    }
+
+    .frog-link:active {
+      transform: translateY(1px) scale(0.96);
+    }
+
+    /* MAIN STAGE / PHOTO DUMP CONTAINER */
+    main {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1200px;
+      padding: 70px 20px 20px;
+      box-sizing: border-box;
+    }
+
+    .dump-stage {
+      position: relative;
+      width: min(84vw, 420px);
+      height: min(66vh, 580px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: default;
+    }
+
+    /* PHOTO CARD */
+    .photo-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      background-color: var(--card-bg);
+      overflow: hidden;
+      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--card-border);
+      transform: translate3d(var(--base-x, 0px), var(--base-y, 0px), 0px) rotate(var(--base-rot, 0deg));
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+                  box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.45s ease,
+                  filter 0.45s ease;
+      will-change: transform, box-shadow;
+      pointer-events: none;
+    }
+
+    /* Subtle print frame / inner border */
+    .photo-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      transform-origin: center center;
+    }
+
+    /* Entrance animation for freshly dropped photo */
+    .photo-card.dropping {
+      animation: cardDropIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes cardDropIn {
+      0% {
+        opacity: 0;
+        transform: translate3d(var(--base-x), calc(var(--base-y) - 60px), 80px) rotate(calc(var(--base-rot) * 1.5)) scale(1.1);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(var(--base-x), var(--base-y), 0px) rotate(var(--base-rot)) scale(1);
+      }
+    }
+
+    /* HOVER & GENTLE ZOOM STATE (PAUSED) */
+    .dump-stage.is-hovered .photo-card.is-top {
+      /* Lekkie przybliżenie z zachowaniem naturalnego kąta */
+      transform: translate3d(var(--base-x, 0px), var(--base-y, 0px), 40px) rotate(calc(var(--base-rot, 0deg) * 0.75)) scale(1.08);
+      box-shadow: 0 32px 75px rgba(0, 0, 0, 0.92), 
+                  0 0 0 1px rgba(255, 255, 255, 0.2),
+                  0 0 25px var(--brand-green-glow);
+      z-index: 99999 !important;
+    }
+
+    .dump-stage.is-hovered .photo-card:not(.is-top) {
+      filter: brightness(0.65);
+      opacity: 0.7;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+      header {
+        padding: 16px 16px 8px;
+      }
+      
+      .frog-link {
+        width: 46px;
+        height: 46px;
+      }
+
+      .frog-link .frog-icon {
+        width: 28px;
+        height: 28px;
+      }
+
+      main {
+        padding: 65px 16px 16px;
+      }
+
+      .dump-stage {
+        width: min(82vw, 320px);
+        height: min(60vh, 460px);
+      }
+
+      .dump-stage.is-hovered .photo-card.is-top {
+        transform: translate3d(var(--base-x, 0px), var(--base-y, 0px), 30px) rotate(calc(var(--base-rot, 0deg) * 0.75)) scale(1.06);
+      }
+    }
+
+    @media (max-height: 700px) {
+      main {
+        padding: 60px 14px 10px;
+      }
+      .dump-stage {
+        height: min(60vh, 430px);
+      }
+    }
+  </style>
+</head>
+<body oncontextmenu="return false;" ondragstart="return false;">
+
+  <!-- Ambient background elements -->
+  <div class="noise-overlay"></div>
+  <div class="blobs-container">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+  </div>
+
+  <!-- HEADER: Clickable Frog Contact Link -->
+  <header>
+    <a href="mailto:pablo@thekikker.com" class="frog-link" title="Napisz do mnie" aria-label="Napisz do mnie">
+      <img src="frog.svg" alt="The Kikker" class="frog-icon">
+    </a>
+  </header>
+
+  <!-- MAIN PHOTO DUMP STAGE -->
+  <main>
+    <div class="dump-stage" id="dumpStage">
+      <!-- Photos are dynamically stacked here -->
+    </div>
+  </main>
+
+  <script>
+    // All 22 lookbook photos from img/
+    const photoList = [
+      "WhatsApp Image 2026-09-24 at 18.00.34.jpeg",
+      "img (1) 2.jpeg",
+      "img (1).jpeg",
+      "img (2).jpeg",
+      "img (3).jpeg",
+      "img (4).jpeg",
+      "img 2.jpeg",
+      "img Image 2026-09-24 at 18.02.45 (1).jpeg",
+      "img Image 2026-09-24 at 18.02.45 (2).jpeg",
+      "img Image 2026-09-24 at 18.02.45 (3).jpeg",
+      "img Image 2026-09-24 at 18.02.45 (4).jpeg",
+      "img Image 2026-09-24 at 18.02.45.jpeg",
+      "img Image 2026-09-24 at 18.02.46 (1).jpeg",
+      "img Image 2026-09-24 at 18.02.46 (2).jpeg",
+      "img Image 2026-09-24 at 18.02.46 (3).jpeg",
+      "img Image 2026-09-24 at 18.02.46 (4).jpeg",
+      "img Image 2026-09-24 at 18.02.46.jpeg",
+      "img Image 2026-09-24 at 18.02.47 (1).jpeg",
+      "img Image 2026-09-24 at 18.02.47 (2).jpeg",
+      "img Image 2026-09-24 at 18.02.47 (3).jpeg",
+      "img Image 2026-09-24 at 18.02.47.jpeg",
+      "img.jpeg"
+    ];
+
+    const STACK_LIMIT = 8; // Max cards kept in DOM for smooth memory & true stack look
+    const SLIDE_DURATION = 4500; // 4.5 seconds per photo
+
+    const stage = document.getElementById('dumpStage');
+
+    let currentIndex = 0;
+    let globalZIndex = 10;
+    let isHovered = false;
+    let timerStart = null;
+    let timerElapsed = 0;
+    let animationFrameId = null;
+    let renderedCards = []; // Tracks { el, index, rot, x, y }
+
+    // Natural alternating/organic tilt angles for "na ukos" photo dump effect
+    const anglePresets = [-5.5, 6.2, -4.2, 5.8, -6.8, 4.5, -5.2, 6.5, -3.8, 5.2, -6.0, 4.8];
+
+    // Preload all images in background
+    function preloadImages() {
+      photoList.forEach(filename => {
+        const img = new Image();
+        img.src = `img/${encodeURIComponent(filename)}`;
+      });
+    }
+    preloadImages();
+
+    // Creates and drops a new photo card onto the pile
+    function dropCard(photoIndex, animate = true) {
+      globalZIndex++;
+      
+      const card = document.createElement('div');
+      card.className = 'photo-card' + (animate ? ' dropping' : '');
+      card.style.zIndex = globalZIndex;
+
+      // Calculate organic scatter angle and offset
+      const baseRot = anglePresets[photoIndex % anglePresets.length] + ((Math.random() - 0.5) * 2.5);
+      const baseX = ((Math.random() - 0.5) * 26);
+      const baseY = ((Math.random() - 0.5) * 20);
+
+      card.style.setProperty('--base-rot', `${baseRot.toFixed(2)}deg`);
+      card.style.setProperty('--base-x', `${baseX.toFixed(1)}px`);
+      card.style.setProperty('--base-y', `${baseY.toFixed(1)}px`);
+
+      const img = document.createElement('img');
+      img.src = `img/${encodeURIComponent(photoList[photoIndex])}`;
+      img.alt = `The Kikker photo ${photoIndex + 1}`;
+      img.loading = 'eager';
+
+      card.appendChild(img);
+      stage.appendChild(card);
+
+      if (animate) {
+        setTimeout(() => {
+          card.classList.remove('dropping');
+        }, 600);
+      }
+
+      // Mark the new top card
+      renderedCards.forEach(item => {
+        item.el.classList.remove('is-top');
+      });
+      card.classList.add('is-top');
+
+      renderedCards.push({
+        el: card,
+        index: photoIndex,
+        rot: baseRot,
+        x: baseX,
+        y: baseY
+      });
+
+      // Maintain DOM performance: purge oldest cards beyond STACK_LIMIT
+      if (renderedCards.length > STACK_LIMIT) {
+        const oldest = renderedCards.shift();
+        oldest.el.style.opacity = '0';
+        oldest.el.style.transition = 'opacity 0.4s ease';
+        setTimeout(() => {
+          if (oldest.el.parentNode === stage) {
+            stage.removeChild(oldest.el);
+          }
+        }, 400);
+      }
+    }
+
+    // Advance to next photo (only runs automatically every 4.5s)
+    function nextPhoto() {
+      currentIndex = (currentIndex + 1) % photoList.length;
+      dropCard(currentIndex, true);
+      resetTimer();
+    }
+
+    // Timer loop
+    function resetTimer() {
+      timerStart = performance.now();
+      timerElapsed = 0;
+    }
+
+    function tick(now) {
+      if (!timerStart) timerStart = now;
+
+      if (!isHovered) {
+        timerElapsed += (now - (window.lastTickTime || now));
+
+        if (timerElapsed >= SLIDE_DURATION) {
+          nextPhoto();
+        }
+      }
+      window.lastTickTime = now;
+      animationFrameId = requestAnimationFrame(tick);
+    }
+
+    // Initialize with a stack of 3 layered cards so it instantly looks like a photo dump pile
+    const initialPrev2 = (photoList.length - 2) % photoList.length;
+    const initialPrev1 = (photoList.length - 1) % photoList.length;
+    dropCard(initialPrev2, false);
+    dropCard(initialPrev1, false);
+    dropCard(0, false); // top card is 01
+
+    resetTimer();
+    animationFrameId = requestAnimationFrame(tick);
+
+    // HOVER INTERACTION: Pause timer & gently scale up
+    stage.addEventListener('mouseenter', () => {
+      isHovered = true;
+      stage.classList.add('is-hovered');
+    });
+
+    stage.addEventListener('mouseleave', () => {
+      isHovered = false;
+      stage.classList.remove('is-hovered');
+    });
+
+    // Touch devices: tap/hold to pause and gently zoom, release to resume
+    stage.addEventListener('touchstart', () => {
+      isHovered = true;
+      stage.classList.add('is-hovered');
+    }, { passive: true });
+
+    stage.addEventListener('touchend', () => {
+      isHovered = false;
+      stage.classList.remove('is-hovered');
+    }, { passive: true });
+  </script>
+</body>
+</html>
